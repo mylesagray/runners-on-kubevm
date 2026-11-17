@@ -1,0 +1,40 @@
+name: VM Service Runner Demo
+
+on:
+  push:
+    branches: [ "main" ]
+  # Allows you to trigger this workflow manually from the Actions tab
+  workflow_dispatch: 
+
+jobs:
+  explore-runner:
+    # This line routes the job to your self-hosted KubeVM
+    runs-on: self-hosted
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check System Information
+        run: |
+          echo "Hostname: $(hostname)"
+          echo "Operating System:"
+          cat /etc/os-release | grep PRETTY_NAME
+          echo "Current User: $(whoami)"
+          
+      - name: Test Docker Availability
+        # This works because we added the docker.io package and docker group in the cloud-init
+        run: |
+          echo "Testing Docker execution on the self-hosted runner..."
+          docker run --rm alpine echo "Hello from inside an Alpine container on vSphere!"
+
+      - name: Build a sample artifact
+        run: |
+          mkdir -p build-output
+          echo "Build completed on $(date)" > build-output/status.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: runner-output
+          path: build-output/status.txt
