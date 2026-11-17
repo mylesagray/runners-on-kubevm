@@ -13,7 +13,7 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Check System Information
         run: |
@@ -34,7 +34,7 @@ jobs:
           echo "Build completed on $(date)" > build-output/status.txt
 
       - name: Upload artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: runner-output
           path: build-output/status.txt
