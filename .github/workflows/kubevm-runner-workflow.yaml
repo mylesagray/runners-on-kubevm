@@ -7,7 +7,7 @@ on:
   workflow_dispatch: 
 
 jobs:
-  explore-runner:
+  kubevm-runner:
     # This line routes the job to your self-hosted KubeVM
     runs-on: self-hosted
 
