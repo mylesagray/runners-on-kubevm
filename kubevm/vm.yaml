@@ -1,0 +1,20 @@
+apiVersion: vmoperator.vmware.com/v1alpha5
+kind: VirtualMachine
+metadata:
+  name: github-runner-vm
+  # Must match the Supervisor namespace where you deploy the VM
+  namespace: mg-ns-01
+  labels:
+    app: github-runner
+spec:
+  # Compute constraints retrieved from `kubectl get virtualmachineclass`
+  className: best-effort-small
+  # OS Template retrieved from `kubectl get virtualmachineimage` - I am using the built-in Canonical library in VCF
+  # Ubuntu 24.04 LTS Minimal - Noble - 24.04.20261008
+  imageName: vmi-8d9e7735f98226681 
+  powerState: PoweredOn
+  storageClass: vsan-default-storage-policy
+  bootstrap:
+    cloudInit:
+      rawCloudConfig:
+        name: github-runner-cloud-init

@@ -1,0 +1,15 @@
+apiVersion: vmoperator.vmware.com/v1alpha5
+kind: VirtualMachineService
+metadata:
+  name: github-runner-ssh
+  # Must match the Supervisor namespace where you deploy the VM
+  namespace: mg-ns-01
+spec:
+  type: LoadBalancer
+  selector:
+    app: github-runner
+  ports:
+    - name: ssh
+      port: 22
+      protocol: TCP
+      targetPort: 22
